@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#172554">
+  <title>User Directory | CRUD</title>
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand-row">
+      <div class="brand-mark" aria-hidden="true">UD</div>
+      <div>
+        <p class="eyebrow">CRUD MANAGEMENT</p>
+        <h1>User Directory</h1>
+      </div>
+      <span class="system-status"><span class="status-dot"></span> Application UI</span>
+    </div>
+    <nav class="top-nav" aria-label="Main navigation">
+      <a href="#home" data-view="home" class="nav-link active">Home</a>
+      <a href="#deleteUser" data-view="deleteUser" class="nav-link">DeleteUser</a>
+      <a href="#updateUser" data-view="updateUser" class="nav-link">UpdateUser</a>
+      <a href="#addUser" data-view="addUser" class="nav-link">AddUser</a>
+      <a href="#getUser" data-view="getUser" class="nav-link">GetUser</a>
+    </nav>
+  </header>
+
+  <main class="page-shell">
+    <section class="welcome-row">
+      <div>
+        <p class="eyebrow" id="pageEyebrow">OVERVIEW</p>
+        <h2 id="pageTitle">Home</h2>
+        <p class="page-description" id="pageDescription">View the current users stored in the database.</p>
+      </div>
+      <div class="page-actions" id="pageActions">
+        <button type="button" class="button button-primary" id="homeRefresh">Refresh table</button>
+      </div>
+    </section>
+
+    <div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
+
+    <section class="summary-grid" aria-label="User summary">
+      <article class="summary-card">
+        <span class="summary-label">Records displayed</span>
+        <strong id="recordCount">—</strong>
+        <span class="summary-note">Users returned by the API</span>
+      </article>
+      <article class="summary-card summary-card-accent">
+        <span class="summary-label">Database operations</span>
+        <strong>CRUD</strong>
+        <span class="summary-note">Create · Read · Update · Delete</span>
+      </article>
+    </section>
+
+    <section class="view-panel" data-panel="home">
+      <div class="panel-heading">
+        <div>
+          <h3>All users</h3>
+          <p>Current entries, ordered by newest ID first.</p>
+        </div>
+        <span class="table-tag">Home</span>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Name</th><th>Fathername</th><th>Address</th><th>Pincode</th></tr></thead>
+          <tbody id="homeTable"><tr><td class="empty-cell" colspan="4">Loading users…</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="view-panel" data-panel="getUser" hidden>
+      <div class="panel-heading">
+        <div><h3>Fetched users</h3><p>Use GetUser to fetch the latest records from MySQL.</p></div>
+        <button type="button" class="button button-secondary" id="getRefresh">Fetch again</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Name</th><th>Fathername</th><th>Address</th><th>Pincode</th></tr></thead>
+          <tbody id="getTable"><tr><td class="empty-cell" colspan="4">Choose GetUser to fetch records.</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="view-panel" data-panel="updateUser" hidden>
+      <div class="panel-heading">
+        <div><h3>Update a user</h3><p>Select Update on a row to edit its fields, then save your changes.</p></div>
+        <button type="button" class="button button-secondary" id="updateRefresh">Refresh table</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Name</th><th>Fathername</th><th>Address</th><th>Pincode</th><th class="action-column">Action</th></tr></thead>
+          <tbody id="updateTable"><tr><td class="empty-cell" colspan="5">Loading users…</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="view-panel" data-panel="deleteUser" hidden>
+      <div class="panel-heading">
+        <div><h3>Delete a user</h3><p>Choose Delete beside the user you want to remove. You will be asked to confirm.</p></div>
+        <button type="button" class="button button-secondary" id="deleteRefresh">Refresh table</button>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Name</th><th>Fathername</th><th>Address</th><th>Pincode</th><th class="action-column">Action</th></tr></thead>
+          <tbody id="deleteTable"><tr><td class="empty-cell" colspan="5">Loading users…</td></tr></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="view-panel" data-panel="addUser" hidden>
+      <div class="panel-heading">
+        <div><h3>Add a user</h3><p>Enter the details below to create a new database record.</p></div>
+        <span class="table-tag">New record</span>
+      </div>
+      <form id="addForm" class="user-form">
+        <label>Name <span>*</span><input name="name" type="text" maxlength="100" placeholder="Enter full name" required></label>
+        <label>Fathername <span>*</span><input name="fathername" type="text" maxlength="100" placeholder="Enter father's name" required></label>
+        <label>Address <span>*</span><input name="address" type="text" maxlength="255" placeholder="Enter address" required></label>
+        <label>Pincode <span>*</span><input name="pincode" type="text" maxlength="20" inputmode="numeric" placeholder="Enter pincode" required></label>
+        <div class="form-footer">
+          <p>All fields are required.</p>
+          <div class="button-row"><button type="reset" class="button button-ghost">Clear</button><button type="submit" class="button button-primary" id="addSubmit">Add user</button></div>
+        </div>
+      </form>
+    </section>
+
+    <footer class="page-footer"><span>Node.js API + MySQL</span><span>Three-component project · Frontend / Backend / Database</span></footer>
+  </main>
+</body>
+</html>
